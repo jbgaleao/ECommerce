@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace ECommerce.Models
 {
@@ -12,5 +8,7 @@ namespace ECommerce.Models
         {
 
         }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.Departaments> Departaments { get; set; }
     }
 }
