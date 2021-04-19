@@ -9,7 +9,8 @@ namespace ECommerce.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "ECommerce.Models.ECommerceContext";
         }
 
