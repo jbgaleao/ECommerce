@@ -9,6 +9,7 @@ namespace ECommerce.Models
         public int DepartamentsId { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Display(Name ="Departamento")]
         public string Name { get; set; }
 
         public virtual ICollection<City> Cities { get; set; }

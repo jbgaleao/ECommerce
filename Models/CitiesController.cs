@@ -38,6 +38,7 @@ namespace ECommerce.Models
         // GET: Cities/Create
         public ActionResult Create()
         {
+            
             ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name");
             return View();
         }
