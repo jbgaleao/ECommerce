@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerce.Classes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace ECommerce.Models
 {
-    public class CitiesController : Controller
+    public class CitiesController:Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
@@ -23,12 +24,12 @@ namespace ECommerce.Models
         // GET: Cities/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             City city = db.Cities.Find(id);
-            if (city == null)
+            if(city == null)
             {
                 return HttpNotFound();
             }
@@ -38,16 +39,7 @@ namespace ECommerce.Models
         // GET: Cities/Create
         public ActionResult Create()
         {
-            IList<Departaments> dep = db.Departaments.ToList();
-            dep.Add(new Departaments
-            {
-                DepartamentsId = 0,
-                Name = "[ Selecione um Departamento ]"
-            });
-
-            dep = dep.OrderBy(d => d.Name).ToList();
-
-            ViewBag.DepartamentsId = new SelectList(dep, "DepartamentsId", "Name");
+            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name");
             return View();
         }
 
@@ -58,39 +50,30 @@ namespace ECommerce.Models
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CityId,Name,DepartamentsId")] City city)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
                 db.Cities.Add(city);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            IList<Departaments> dep = db.Departaments.ToList();
-            dep.Add(new Departaments
-            {
-                DepartamentsId = 0,
-                Name = "[ Selecione um Departamento ]"
-            });
-
-            dep = dep.OrderBy(d => d.Name).ToList();
-
-            ViewBag.DepartamentsId = new SelectList(dep,"DepartamentsId","Name");
+            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name");
             return View();
         }
 
         // GET: Cities/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             City city = db.Cities.Find(id);
-            if (city == null)
+            if(city == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name", city.DepartamentsId);
+            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name",city.DepartamentsId);
             return View(city);
         }
 
@@ -101,25 +84,25 @@ namespace ECommerce.Models
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CityId,Name,DepartamentsId")] City city)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
                 db.Entry(city).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name", city.DepartamentsId);
+            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name",city.DepartamentsId);
             return View(city);
         }
 
         // GET: Cities/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             City city = db.Cities.Find(id);
-            if (city == null)
+            if(city == null)
             {
                 return HttpNotFound();
             }
@@ -139,7 +122,7 @@ namespace ECommerce.Models
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if(disposing)
             {
                 db.Dispose();
             }

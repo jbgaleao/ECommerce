@@ -12,7 +12,7 @@ namespace ECommerce.Classes
 
         public static List<Departaments> GetDepartments()
         {
-            IList<Departaments> dep = db.Departaments.ToList();
+            var dep = db.Departaments.ToList();
             dep.Add(new Departaments
             {
                 DepartamentsId = 0,
@@ -21,7 +21,7 @@ namespace ECommerce.Classes
 
             dep = dep.OrderBy(d => d.Name).ToList();
             
-            return null;
+            return dep;
         }
         public void Dispose()
         {
