@@ -38,7 +38,15 @@ namespace ECommerce.Models
         // GET: Cities/Create
         public ActionResult Create()
         {
-            
+            IList<Departaments> dep = db.Departaments.ToList();
+            dep.Add(new Departaments
+            {
+                DepartamentsId = 0,
+                Name = "Selecione um Departamento"
+            });
+
+            dep.OrderBy(d => d.Name).ToList();
+
             ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name");
             return View();
         }
