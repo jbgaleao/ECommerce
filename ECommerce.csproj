@@ -197,6 +197,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\City.cs" />
     <Compile Include="Models\Departaments.cs" />
     <Compile Include="Models\ECommerceContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
