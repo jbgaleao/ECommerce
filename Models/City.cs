@@ -15,5 +15,7 @@ namespace ECommerce.Models
         public string Name { get; set; }
 
         public int DepartamentsId { get; set; }
+
+        public virtual Departaments Departaments { get; set; }
     }
 }

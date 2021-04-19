@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.Models
 {
@@ -9,5 +10,7 @@ namespace ECommerce.Models
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public string Name { get; set; }
+
+        public virtual ICollection<City> Cities { get; set; }
     }
 }
