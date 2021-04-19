@@ -17,6 +17,7 @@ namespace ECommerce.Models
         public string Name { get; set; }
 
         [Display(Name ="Departamento")]
+        [Range(1,double.MaxValue, ErrorMessage ="Selecione um Departamento")]
         public int DepartamentsId { get; set; }
 
         public virtual Departaments Departaments { get; set; }

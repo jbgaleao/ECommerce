@@ -42,12 +42,12 @@ namespace ECommerce.Models
             dep.Add(new Departaments
             {
                 DepartamentsId = 0,
-                Name = "Selecione um Departamento"
+                Name = "[ Selecione um Departamento ]"
             });
 
-            dep.OrderBy(d => d.Name).ToList();
+            dep = dep.OrderBy(d => d.Name).ToList();
 
-            ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name");
+            ViewBag.DepartamentsId = new SelectList(dep, "DepartamentsId", "Name");
             return View();
         }
 
@@ -65,8 +65,17 @@ namespace ECommerce.Models
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name", city.DepartamentsId);
-            return View(city);
+            IList<Departaments> dep = db.Departaments.ToList();
+            dep.Add(new Departaments
+            {
+                DepartamentsId = 0,
+                Name = "[ Selecione um Departamento ]"
+            });
+
+            dep = dep.OrderBy(d => d.Name).ToList();
+
+            ViewBag.DepartamentsId = new SelectList(dep,"DepartamentsId","Name");
+            return View();
         }
 
         // GET: Cities/Edit/5
