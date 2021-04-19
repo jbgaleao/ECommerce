@@ -9,6 +9,7 @@ namespace ECommerce.Classes
     public class CombosHelper:IDisposable
     {
         private static ECommerceContext db = new ECommerceContext();
+
         public static List<Departaments> GetDepartments()
         {
             IList<Departaments> dep = db.Departaments.ToList();
@@ -19,6 +20,8 @@ namespace ECommerce.Classes
             });
 
             dep = dep.OrderBy(d => d.Name).ToList();
+            
+            return null;
         }
         public void Dispose()
         {
