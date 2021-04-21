@@ -9,9 +9,10 @@ namespace ECommerce.Models
         [Key]
         public int DepartamentsId { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [Display(Name ="Departamento")]
-        [Index("Departament_Name_Index", IsUnique = true)]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")] 
+        [MaxLength(50,ErrorMessage = "O campo {0} deve ter no máximo: 50 caracteres !")]
+        [Display(Name = "Departamento")]
+        [Index("Departament_Name_Index",IsUnique = true)]
         public string Name { get; set; }
 
         public virtual ICollection<City> Cities { get; set; }
