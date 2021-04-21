@@ -21,5 +21,6 @@ namespace ECommerce.Models
         public int DepartamentsId { get; set; }
 
         public virtual Departaments Departaments { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
     }
 }
