@@ -107,8 +107,20 @@ namespace ECommerce.Controllers
         {
             Departaments departaments = db.Departaments.Find(id);
             db.Departaments.Remove(departaments);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch(System.Exception ex)
+            {
+                if((ex.InnerException != null) &&
+                    (ex.InnerException.InnerException != null) &&
+                    (ex.InnerException.Message.Contains("REFERENCE")))
+                {
+
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)
