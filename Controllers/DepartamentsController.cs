@@ -116,7 +116,7 @@ namespace ECommerce.Controllers
             {
                 if((ex.InnerException != null) &&
                     (ex.InnerException.InnerException != null) &&
-                    (ex.InnerException.Message.Contains("REFERENCE")))
+                    (ex.InnerException.InnerException.Message.Contains("REFERENCE")))
                 {
                     ModelState.AddModelError(string.Empty,"Exclua antes as Cidades Relacionadas...");
                 }
@@ -124,7 +124,8 @@ namespace ECommerce.Controllers
                 {
                     ModelState.AddModelError(string.Empty,ex.Message);
                 }
-                return View();
+           
+                return View(departaments);
             }
         }
 
