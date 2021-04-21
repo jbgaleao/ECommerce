@@ -6,7 +6,7 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
-    public class DepartamentsController : Controller
+    public class DepartamentsController:Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
@@ -19,12 +19,12 @@ namespace ECommerce.Controllers
         // GET: Departaments/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Departaments departaments = db.Departaments.Find(id);
-            if (departaments == null)
+            if(departaments == null)
             {
                 return HttpNotFound();
             }
@@ -44,7 +44,7 @@ namespace ECommerce.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "DepartamentsId,Name")] Departaments departaments)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
                 db.Departaments.Add(departaments);
                 db.SaveChanges();
@@ -57,12 +57,12 @@ namespace ECommerce.Controllers
         // GET: Departaments/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Departaments departaments = db.Departaments.Find(id);
-            if (departaments == null)
+            if(departaments == null)
             {
                 return HttpNotFound();
             }
@@ -76,7 +76,7 @@ namespace ECommerce.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DepartamentsId,Name")] Departaments departaments)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
                 db.Entry(departaments).State = EntityState.Modified;
                 db.SaveChanges();
@@ -88,12 +88,12 @@ namespace ECommerce.Controllers
         // GET: Departaments/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Departaments departaments = db.Departaments.Find(id);
-            if (departaments == null)
+            if(departaments == null)
             {
                 return HttpNotFound();
             }
@@ -118,14 +118,18 @@ namespace ECommerce.Controllers
                     (ex.InnerException.InnerException != null) &&
                     (ex.InnerException.Message.Contains("REFERENCE")))
                 {
-
+                    ModelState.AddModelError(string.Empty,"Exclua antes as Cidades Relacionadas...");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty,ex.Message);
                 }
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if(disposing)
             {
                 db.Dispose();
             }
