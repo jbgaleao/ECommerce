@@ -25,6 +25,12 @@ namespace ECommerce
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+//  *********************************************************************************
+
+            bundles.Add(new StyleBundle("~/Library/ECommerceCompanyCadastro").Include(
+                      "~/Library/ECommerce.Company.Cadastro.js"));
+
         }
     }
 }

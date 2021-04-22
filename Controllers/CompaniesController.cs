@@ -133,5 +133,20 @@ namespace ECommerce.Controllers
             }
             base.Dispose(disposing);
         }
+
+        /// <summary>
+        /// Ordenação em Cascata
+        /// </summary>
+        /// <param name="departmentId"></param>
+        /// <returns></returns>
+        public JsonResult GetCities(int departmentId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var cities = db.Cities.Where(c => c.DepartamentsId == departmentId);
+            return Json(cities);
+        }
+
+
+
     }
 }
