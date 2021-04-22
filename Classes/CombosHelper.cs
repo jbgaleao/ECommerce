@@ -13,16 +13,27 @@ namespace ECommerce.Classes
         public static List<Departaments> GetDepartments()
         {
             var dep = db.Departaments.ToList();
-            dep.Add(new Departaments
-            {
+            dep.Add(new Departaments {
                 DepartamentsId = 0,
                 Name = "[ Selecione um Departamento ]"
             });
-
-            dep = dep.OrderBy(d => d.Name).ToList();
             
-            return dep;
+            return dep.OrderBy(d => d.Name).ToList();
         }
+
+        public static List<City> GetCities()
+        {
+            var city = db.Cities.ToList();
+            city.Add(new City
+            {
+                CityId = 0,
+                Name = "[ Selecione ua Cidade ]"
+            });
+
+            return city.OrderBy(d => d.Name).ToList();
+        }
+
+
         public void Dispose()
         {
             db.Dispose();
