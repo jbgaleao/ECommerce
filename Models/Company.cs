@@ -14,7 +14,7 @@ namespace ECommerce.Models
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [MaxLength(50,ErrorMessage = "O campo {0} deve ter no máximo: 50 caracteres !")]
-        [Display(Name = "Companhias")]
+        [Display(Name = "Companhia")]
         [Index("Company_Name_Index",IsUnique = true)]
         public string Companhia { get; set; }
 
@@ -27,7 +27,7 @@ namespace ECommerce.Models
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [MaxLength(100,ErrorMessage = "O campo {0} deve ter no máximo: 100 caracteres !")]
-        [Display(Name = "Telefone")]
+        [Display(Name = "Endereço")]
         [Index("Endereco_Name_Index",IsUnique = true)]
         [DataType(DataType.PhoneNumber)]
         public string Address { get; set; }
@@ -35,6 +35,15 @@ namespace ECommerce.Models
         [Display(Name = "Imagem")]
         [DataType(DataType.ImageUrl)]
         public string Logo { get; set; }
+
+        [Display(Name = "Cidade")]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        public int CityId { get; set; }
+
+        [Display(Name = "Departamento")]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        public int DepartamentsId { get; set; }
+
 
 
         public virtual Departaments Departaments { get; set; }

@@ -17,7 +17,8 @@ namespace ECommerce.Controllers
         // GET: Companies
         public ActionResult Index()
         {
-            return View(db.Companies.ToList());
+            var companies = db.Companies.Include(c => c.Cities).Include(c => c.Departaments);
+            return View(companies.ToList());
         }
 
         // GET: Companies/Details/5
@@ -38,6 +39,8 @@ namespace ECommerce.Controllers
         // GET: Companies/Create
         public ActionResult Create()
         {
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name");
+            ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name");
             return View();
         }
 
@@ -46,7 +49,7 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CompanyId,Companhia,Phone,Address,Logo")] Company company)
+        public ActionResult Create([Bind(Include = "CompanyId,Companhia,Phone,Address,Logo,CityId,DepartamentsId")] Company company)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +58,8 @@ namespace ECommerce.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", company.CityId);
+            ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name", company.DepartamentsId);
             return View(company);
         }
 
@@ -70,6 +75,8 @@ namespace ECommerce.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", company.CityId);
+            ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name", company.DepartamentsId);
             return View(company);
         }
 
@@ -78,7 +85,7 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CompanyId,Companhia,Phone,Address,Logo")] Company company)
+        public ActionResult Edit([Bind(Include = "CompanyId,Companhia,Phone,Address,Logo,CityId,DepartamentsId")] Company company)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +93,8 @@ namespace ECommerce.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", company.CityId);
+            ViewBag.DepartamentsId = new SelectList(db.Departaments, "DepartamentsId", "Name", company.DepartamentsId);
             return View(company);
         }
 
