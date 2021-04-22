@@ -37,7 +37,7 @@ namespace ECommerce.Models
         public string Logo { get; set; }
 
 
-        public virtual ICollection<City> Cities { get; set; }        
-        public virtual ICollection<Departaments> Departaments { get; set; }
+        public virtual Departaments Departaments { get; set; }
+        public virtual City Cities { get; set; }        
     }
 }
