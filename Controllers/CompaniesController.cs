@@ -143,10 +143,9 @@ namespace ECommerce.Controllers
         {
             db.Configuration.ProxyCreationEnabled = false;
             var cities = db.Cities.Where(c => c.DepartamentsId == departmentId);
+
             return Json(cities);
         }
-
-
 
     }
 }
