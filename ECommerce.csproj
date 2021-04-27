@@ -216,6 +216,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Logos\163343216_10225167822160986_7402864514601635395_n.jpg" />
+    <Content Include="Content\Logos\169922259_10225292230191109_2194081156759375648_n.jpg" />
+    <Content Include="Content\Logos\170677003_10225308291112622_3321998572346054893_n.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
