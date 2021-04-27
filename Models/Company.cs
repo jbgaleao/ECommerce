@@ -39,6 +39,11 @@ namespace ECommerce.Models
         [DataType(DataType.ImageUrl)]
         public string Logo { get; set; }
 
+        [NotMapped]
+        public HttpPostedFileBase LogoFile { get; set; }
+
+
+
         [Display(Name = "Departamento")]
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public int DepartamentsId { get; set; }
