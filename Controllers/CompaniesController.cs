@@ -11,7 +11,7 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
-    public class CompaniesController : Controller
+    public class CompaniesController:Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
@@ -25,12 +25,12 @@ namespace ECommerce.Controllers
         // GET: Companies/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Company company = db.Companies.Find(id);
-            if (company == null)
+            if(company == null)
             {
                 return HttpNotFound();
             }
@@ -40,8 +40,8 @@ namespace ECommerce.Controllers
         // GET: Companies/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
-            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(), "DepartamentsId", "Name");
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(),"CityId","Name");
+            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name");
             return View();
         }
 
@@ -52,7 +52,7 @@ namespace ECommerce.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Company company)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
 
                 var pic = string.Empty;
@@ -71,25 +71,25 @@ namespace ECommerce.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
-            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(), "DepartamentsId", "Name", company.DepartamentsId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(),"CityId","Name",company.CityId);
+            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name",company.DepartamentsId);
             return View(company);
         }
 
         // GET: Companies/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Company company = db.Companies.Find(id);
-            if (company == null)
+            if(company == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
-            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(), "DepartamentsId", "Name", company.DepartamentsId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(),"CityId","Name",company.CityId);
+            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name",company.DepartamentsId);
             return View(company);
         }
 
@@ -98,28 +98,40 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CompanyId,Companhia,Phone,Address,Logo,CityId,DepartamentsId")] Company company)
+        public ActionResult Edit(Company company)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
+                var pic = string.Empty;
+                var folder = "~/Content/Logos";
+
+                if(company.LogoFile != null)
+                {
+                    pic = FilesHelper.UploadPhoto(company.LogoFile,folder);
+                    pic = string.Format("{0}/{1}",folder,pic);
+                    company.Logo = pic;
+                }
+
+
+
                 db.Entry(company).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
-            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(), "DepartamentsId", "Name", company.DepartamentsId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(),"CityId","Name",company.CityId);
+            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name",company.DepartamentsId);
             return View(company);
         }
 
         // GET: Companies/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if(id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Company company = db.Companies.Find(id);
-            if (company == null)
+            if(company == null)
             {
                 return HttpNotFound();
             }
@@ -139,7 +151,7 @@ namespace ECommerce.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if(disposing)
             {
                 db.Dispose();
             }
@@ -159,7 +171,7 @@ namespace ECommerce.Controllers
             return Json(cities);
         }
 
-        
+
 
     }
 }
