@@ -57,21 +57,24 @@ namespace ECommerce.Controllers
 
                 var pic = string.Empty;
                 var folder = "~/Content/Logos";
-
+                var file = string.Format( "{0}.jpg", company.CompanyId );
 
                 db.SaveChanges();
-
-                return RedirectToAction( "Index" );
+                db.Companies.Add( company );
 
                 if ( company.LogoFile != null )
                 {
-                    FilesHelper.UploadPhoto( company.LogoFile, folder, string.Format( "{0}.jpg", company.CompanyId ) );
-                    pic = string.Format( "{0}/{1}.jpg", folder, company.CompanyId );
+                    var response = FilesHelper.UploadPhoto( company.LogoFile, folder, file );
+                    if ( response )
+                    {
+
+                        pic = string.Format( "{0}/{1}.jpg", folder, file );
+                        company.Logo = pic;
+                        db.Entry( company ).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
                 }
-
-                company.Logo = pic;
-
-                db.Companies.Add( company );
+                return RedirectToAction( "Index" );
             }
 
             ViewBag.CityId = new SelectList( CombosHelper.GetCities(), "CityId", "Name", company.CityId );
@@ -107,12 +110,19 @@ namespace ECommerce.Controllers
             {
                 var pic = string.Empty;
                 var folder = "~/Content/Logos";
+                var file = string.Format( "{0}.jpg", company.CompanyId );
 
                 if ( company.LogoFile != null )
                 {
-                    pic = FilesHelper.UploadPhoto( company.LogoFile, folder );
-                    pic = string.Format( "{0}/{1}", folder, pic );
-                    company.Logo = pic;
+                    var response = FilesHelper.UploadPhoto( company.LogoFile, folder, file );
+                    if ( response )
+                    {
+
+                        pic = string.Format( "{0}/{1}.jpg", folder, file );
+                        company.Logo = pic;
+                        db.Entry( company ).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
                 }
 
 
