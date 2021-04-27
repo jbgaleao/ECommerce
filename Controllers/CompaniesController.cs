@@ -11,37 +11,37 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
-    public class CompaniesController:Controller
+    public class CompaniesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
         // GET: Companies
         public ActionResult Index()
         {
-            var companies = db.Companies.Include(c => c.Cities).Include(c => c.Departaments);
-            return View(companies.ToList());
+            var companies = db.Companies.Include( c => c.Cities ).Include( c => c.Departaments );
+            return View( companies.ToList() );
         }
 
         // GET: Companies/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details( int? id )
         {
-            if(id == null)
+            if ( id == null )
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult( HttpStatusCode.BadRequest );
             }
-            Company company = db.Companies.Find(id);
-            if(company == null)
+            Company company = db.Companies.Find( id );
+            if ( company == null )
             {
                 return HttpNotFound();
             }
-            return View(company);
+            return View( company );
         }
 
         // GET: Companies/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(),"CityId","Name");
-            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name");
+            ViewBag.CityId = new SelectList( CombosHelper.GetCities(), "CityId", "Name" );
+            ViewBag.DepartamentsId = new SelectList( CombosHelper.GetDepartments(), "DepartamentsId", "Name" );
             return View();
         }
 
@@ -50,47 +50,50 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Company company)
+        public ActionResult Create( Company company )
         {
-            if(ModelState.IsValid)
+            if ( ModelState.IsValid )
             {
 
                 var pic = string.Empty;
                 var folder = "~/Content/Logos";
 
-                if(company.LogoFile != null)
+
+                db.SaveChanges();
+
+                return RedirectToAction( "Index" );
+
+                if ( company.LogoFile != null )
                 {
-                    pic = FilesHelper.UploadPhoto(company.LogoFile,folder);
-                    pic = string.Format("{0}/{1}",folder,pic);
+                    FilesHelper.UploadPhoto( company.LogoFile, folder, string.Format( "{0}.jpg", company.CompanyId ) );
+                    pic = string.Format( "{0}/{1}.jpg", folder, company.CompanyId );
                 }
 
                 company.Logo = pic;
 
-                db.Companies.Add(company);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                db.Companies.Add( company );
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(),"CityId","Name",company.CityId);
-            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name",company.DepartamentsId);
-            return View(company);
+            ViewBag.CityId = new SelectList( CombosHelper.GetCities(), "CityId", "Name", company.CityId );
+            ViewBag.DepartamentsId = new SelectList( CombosHelper.GetDepartments(), "DepartamentsId", "Name", company.DepartamentsId );
+            return View( company );
         }
 
         // GET: Companies/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit( int? id )
         {
-            if(id == null)
+            if ( id == null )
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult( HttpStatusCode.BadRequest );
             }
-            Company company = db.Companies.Find(id);
-            if(company == null)
+            Company company = db.Companies.Find( id );
+            if ( company == null )
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(),"CityId","Name",company.CityId);
-            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name",company.DepartamentsId);
-            return View(company);
+            ViewBag.CityId = new SelectList( CombosHelper.GetCities(), "CityId", "Name", company.CityId );
+            ViewBag.DepartamentsId = new SelectList( CombosHelper.GetDepartments(), "DepartamentsId", "Name", company.DepartamentsId );
+            return View( company );
         }
 
         // POST: Companies/Edit/5
@@ -98,64 +101,64 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Company company)
+        public ActionResult Edit( Company company )
         {
-            if(ModelState.IsValid)
+            if ( ModelState.IsValid )
             {
                 var pic = string.Empty;
                 var folder = "~/Content/Logos";
 
-                if(company.LogoFile != null)
+                if ( company.LogoFile != null )
                 {
-                    pic = FilesHelper.UploadPhoto(company.LogoFile,folder);
-                    pic = string.Format("{0}/{1}",folder,pic);
+                    pic = FilesHelper.UploadPhoto( company.LogoFile, folder );
+                    pic = string.Format( "{0}/{1}", folder, pic );
                     company.Logo = pic;
                 }
 
 
 
-                db.Entry(company).State = EntityState.Modified;
+                db.Entry( company ).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction( "Index" );
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(),"CityId","Name",company.CityId);
-            ViewBag.DepartamentsId = new SelectList(CombosHelper.GetDepartments(),"DepartamentsId","Name",company.DepartamentsId);
-            return View(company);
+            ViewBag.CityId = new SelectList( CombosHelper.GetCities(), "CityId", "Name", company.CityId );
+            ViewBag.DepartamentsId = new SelectList( CombosHelper.GetDepartments(), "DepartamentsId", "Name", company.DepartamentsId );
+            return View( company );
         }
 
         // GET: Companies/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete( int? id )
         {
-            if(id == null)
+            if ( id == null )
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult( HttpStatusCode.BadRequest );
             }
-            Company company = db.Companies.Find(id);
-            if(company == null)
+            Company company = db.Companies.Find( id );
+            if ( company == null )
             {
                 return HttpNotFound();
             }
-            return View(company);
+            return View( company );
         }
 
         // POST: Companies/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName( "Delete" )]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed( int id )
         {
-            Company company = db.Companies.Find(id);
-            db.Companies.Remove(company);
+            Company company = db.Companies.Find( id );
+            db.Companies.Remove( company );
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction( "Index" );
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose( bool disposing )
         {
-            if(disposing)
+            if ( disposing )
             {
                 db.Dispose();
             }
-            base.Dispose(disposing);
+            base.Dispose( disposing );
         }
 
         /// <summary>
@@ -163,12 +166,12 @@ namespace ECommerce.Controllers
         /// </summary>
         /// <param name="departmentId"></param>
         /// <returns></returns>
-        public JsonResult GetCities(int departmentId)
+        public JsonResult GetCities( int departmentId )
         {
             db.Configuration.ProxyCreationEnabled = false;
-            var cities = db.Cities.Where(c => c.DepartamentsId == departmentId);
+            var cities = db.Cities.Where( c => c.DepartamentsId == departmentId );
 
-            return Json(cities);
+            return Json( cities );
         }
 
 
